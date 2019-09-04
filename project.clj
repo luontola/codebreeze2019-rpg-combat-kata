@@ -3,7 +3,7 @@
   :url "https://github.com/luontola/codebreeze2019-rpg-combat-kata"
   :license {:name "WTFPL"
             :url "http://www.wtfpl.net"}
-  :dependencies [[org.clojure/clojure "1.10.0"]]
+  :dependencies [[org.clojure/clojure "1.10.1"]]
   :main ^:skip-aot rpg-combat-kata.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
