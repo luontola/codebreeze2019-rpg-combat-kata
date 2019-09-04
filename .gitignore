@@ -1,8 +1,8 @@
+/*.iml
+/.idea/
 /.lein-*
 /.nrepl-port
-/checkouts
-/classes
 /pom.xml
 /pom.xml.asc
 /profiles.clj
-/target
+/target/
