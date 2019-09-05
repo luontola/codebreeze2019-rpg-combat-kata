@@ -11,9 +11,6 @@
     (testing "is alive"
       (is (character/alive? character/new))))
 
-  (testing "character with zero health is dead"
-    (is (not (character/alive? (assoc character/new :character/health 0)))))
-
   (testing "attacking:"
     (testing "deals damage to the victim"
       (let [attacker character/new
@@ -28,4 +25,10 @@
             damaged-victim (->> victim
                                 (character/attack attacker)
                                 (character/attack attacker))]
-        (is (= 0 (:character/health damaged-victim)))))))
+        (is (= 0 (:character/health damaged-victim)))))
+
+    (testing "dies when health is 0"
+      (let [attacker character/new
+            victim (assoc character/new :character/health 1)
+            damaged-victim (character/attack attacker victim)]
+        (is (not (character/alive? damaged-victim)))))))
