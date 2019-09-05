@@ -128,4 +128,9 @@
   (testing "character may leave a faction"
     (let [character (-> (character/create {:character/factions #{:elves :orks}})
                         (character/leave-faction :elves))]
-      (is (= #{:orks} (:character/factions character))))))
+      (is (= #{:orks} (:character/factions character)))))
+
+  (testing "allies cannot attack each other"
+    (let [attacker (character/create {:character/factions #{:elves}})
+          target (character/create {:character/factions #{:elves}})]
+      (is (= target (character/attack target attacker))))))
