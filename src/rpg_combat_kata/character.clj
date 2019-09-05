@@ -1,4 +1,5 @@
 (ns rpg-combat-kata.character
+  (:require [rpg-combat-kata.coordinate :as coordinate])
   (:import (java.util UUID)))
 
 (def max-health 1000)
@@ -14,7 +15,8 @@
            :character/healing-power 10
            :character/attack-range (case (get initial-values :character/fighter-type :melee)
                                      :melee 2
-                                     :ranged 20)}
+                                     :ranged 20)
+           :character/position {:x 0}}
           initial-values)))
 
 (defn alive? [character]
@@ -28,8 +30,14 @@
   (update character :character/health (fn [health]
                                         (max 0 (min max-health (+ health change))))))
 
+(defn- in-range? [target attacker]
+  (<= (coordinate/distance (:character/position target)
+                           (:character/position attacker))
+      (:character/attack-range attacker)))
+
 (defn attack [target attacker]
-  (if (not (same? target attacker))
+  (if (and (in-range? target attacker)
+           (not (same? target attacker)))
     (let [level-diff (- (:character/level attacker)
                         (:character/level target))
           multiplier (cond

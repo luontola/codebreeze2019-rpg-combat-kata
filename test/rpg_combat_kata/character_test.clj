@@ -72,7 +72,21 @@
                                         :character/dps 10})
             target (character/create {:character/level 10
                                       :character/health 100})]
-        (is (= 95 (:character/health (character/attack target attacker))))))))
+        (is (= 95 (:character/health (character/attack target attacker)))))))
+
+  (testing "attack range:"
+    (testing "in range"
+      (let [attacker (character/create {:character/attack-range 10
+                                        :character/position {:x 10}})
+            target (character/create {:character/health 100
+                                      :character/position {:x 20}})]
+        (is (> 100 (:character/health (character/attack target attacker))))))
+    (testing "out of range"
+      (let [attacker (character/create {:character/attack-range 10
+                                        :character/position {:x 10}})
+            target (character/create {:character/health 100
+                                      :character/position {:x 21}})]
+        (is (= 100 (:character/health (character/attack target attacker))))))))
 
 (deftest healing-test
   (testing "increases health"
