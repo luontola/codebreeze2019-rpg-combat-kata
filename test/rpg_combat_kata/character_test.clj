@@ -99,8 +99,8 @@
 
   (testing "enemies cannot be healed"
     (let [healer (character/create)
-          enemy (character/create {:character/health 500})]
-      (is (= enemy (character/heal enemy healer)))))
+          target (character/create {:character/health 500})]
+      (is (= target (character/heal target healer)))))
 
   (testing "the dead cannot be healed"
     (let [damaged (character/create {:character/health 0})
