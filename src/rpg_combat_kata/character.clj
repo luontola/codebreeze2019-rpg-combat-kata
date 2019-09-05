@@ -9,7 +9,9 @@
   ([initial-values]
    (merge {:character/id (UUID/randomUUID)
            :character/health max-health
-           :character/level 1}
+           :character/level 1
+           :character/dps 10
+           :character/healing-power 10}
           initial-values)))
 
 (defn alive? [character]
@@ -25,11 +27,11 @@
 
 (defn attack [target attacker]
   (if (not (same? target attacker))
-    (change-health target -1)
+    (change-health target (- (:character/dps attacker)))
     target))
 
 (defn heal [target healer]
   (if (and (alive? target)
            (same? target healer))
-    (change-health target 1)
+    (change-health target (:character/healing-power healer))
     target))
