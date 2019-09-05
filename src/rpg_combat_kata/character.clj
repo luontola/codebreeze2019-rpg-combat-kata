@@ -31,8 +31,8 @@
                         (:character/level target))
           multiplier (cond
                        (<= 5 level-diff) 1.5
-                       (>= -5 level-diff) 0.5
-                       :else 1.0)
+                       (<= level-diff -5) 0.5
+                       :else 1)
           dps (int (* multiplier (:character/dps attacker)))]
       (change-health target (- dps)))
     target))
