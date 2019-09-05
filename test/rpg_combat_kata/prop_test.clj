@@ -48,5 +48,12 @@
       (is (> (:character/health target)
              (:character/health (character/attack target attacker))))))
 
-  (testing "props cannot join factions")
-  (testing "props cannot leave factions"))
+  (testing "props cannot join factions"
+    (let [prop (prop/create)]
+      (is (= {} (-> (character/join-faction prop :elves)
+                    (select-keys [:character/factions]))))))
+
+  (testing "props cannot leave factions"
+    (let [prop (prop/create)]
+      (is (= {} (-> (character/leave-faction prop :elves)
+                    (select-keys [:character/factions])))))))

@@ -69,7 +69,11 @@
     target))
 
 (defn join-faction [character faction]
-  (update character :character/factions conj faction))
+  (if (:character/factions character)
+    (update character :character/factions conj faction)
+    character))
 
 (defn leave-faction [character faction]
-  (update character :character/factions disj faction))
+  (if (:character/factions character)
+    (update character :character/factions disj faction)
+    character))
