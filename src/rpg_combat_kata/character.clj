@@ -15,16 +15,17 @@
   (= (:character/id character-1)
      (:character/id character-2)))
 
-(defn- change-health [health change]
-  (max 0 (min max-health (+ health change))))
+(defn- change-health [character change]
+  (update character :character/health (fn [health]
+                                        (max 0 (min max-health (+ health change))))))
 
 (defn attack [target attacker]
   (if (not (same? target attacker))
-    (update target :character/health change-health -1)
+    (change-health target -1)
     target))
 
 (defn heal [target healer]
   (if (and (alive? target)
            (same? target healer))
-    (update target :character/health change-health 1)
+    (change-health target 1)
     target))
