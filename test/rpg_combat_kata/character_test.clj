@@ -31,4 +31,11 @@
       (let [attacker character/new
             victim (assoc character/new :character/health 1)
             damaged-victim (character/attack attacker victim)]
-        (is (not (character/alive? damaged-victim)))))))
+        (is (not (character/alive? damaged-victim)))))
+
+    (testing "healing:"
+      (testing "increases health"
+        (let [damaged (assoc character/new :character/health 500)
+              healed (character/heal damaged 100)]
+          (is (> (:character/health healed)
+                 (:character/health damaged))))))))
