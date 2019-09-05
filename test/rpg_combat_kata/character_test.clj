@@ -35,7 +35,25 @@
     (let [attacker (character/create)
           target (character/create {:character/health 1})
           damaged-target (character/attack target attacker)]
-      (is (not (character/alive? damaged-target))))))
+      (is (not (character/alive? damaged-target)))))
+
+  (testing "adjust damage to level:"
+    (testing "attacker and target are about same level"
+      (let [attacker (character/create {:character/level 14
+                                        :character/dps 10})
+            target (character/create {:character/level 10
+                                      :character/health 100})]
+        (is (= 90 (:character/health (character/attack target attacker))))))
+
+    (testing "attacker is 5 levels above target, damage is boosted 50%"
+      (let [attacker (character/create {:character/level 15
+                                        :character/dps 10})
+            target (character/create {:character/level 10
+                                      :character/health 100})]
+        (is (= 85 (:character/health (character/attack target attacker))))))
+
+    #_(testing "attacker is 5 levels below target, damage is reduced 50%")))
+
 
 (deftest healing-test
   (testing "increases health"

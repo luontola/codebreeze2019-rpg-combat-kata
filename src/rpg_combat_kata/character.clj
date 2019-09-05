@@ -27,7 +27,11 @@
 
 (defn attack [target attacker]
   (if (not (same? target attacker))
-    (change-health target (- (:character/dps attacker)))
+    (let [dps (if (<= 5 (- (:character/level attacker)
+                           (:character/level target)))
+                (int (* 1.5 (:character/dps attacker)))
+                (:character/dps attacker))]
+      (change-health target (- dps)))
     target))
 
 (defn heal [target healer]
