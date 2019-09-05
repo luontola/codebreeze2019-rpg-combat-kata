@@ -5,7 +5,7 @@
 (deftest character-test
   (testing "new character"
     (testing "has health, starting at 1000"
-      (is (= 1000 (:character/health character/new))))
+      (is (= character/max-health (:character/health character/new))))
     (testing "has a level, starting at 1"
       (is (= 1 (:character/level character/new))))
     (testing "is alive"
@@ -45,7 +45,7 @@
               healed (character/heal damaged 100)]
           (is (= healed damaged))))
 
-      (testing "cannot be healed over 1000"
-        (let [damaged (assoc character/new :character/health 999)
+      (testing "cannot be healed over max health"
+        (let [damaged (assoc character/new :character/health (dec character/max-health))
               healed (character/heal damaged 100)]
-          (is (= 1000 (:character/health healed))))))))
+          (is (= character/max-health (:character/health healed))))))))

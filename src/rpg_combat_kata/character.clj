@@ -1,13 +1,15 @@
 (ns rpg-combat-kata.character)
 
-(def new {:character/health 1000
+(def max-health 1000)
+
+(def new {:character/health max-health
           :character/level 1})
 
 (defn alive? [character]
   (pos? (:character/health character)))
 
 (defn- change-health [health change]
-  (max 0 (min 1000 (+ health change))))
+  (max 0 (min max-health (+ health change))))
 
 (defn attack [_attacker victim]
   (update victim :character/health change-health -1))
