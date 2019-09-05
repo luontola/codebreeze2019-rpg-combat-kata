@@ -130,6 +130,16 @@
                         (character/leave-faction :elves))]
       (is (= #{:orks} (:character/factions character)))))
 
+  (testing "characters in the same faction are allies"
+    (is (true? (character/allies? (character/create {:character/factions #{:elves}})
+                                  (character/create {:character/factions #{:elves}}))))
+    (is (true? (character/allies? (character/create {:character/factions #{:elves :humans}})
+                                  (character/create {:character/factions #{:elves :hobbits}}))))
+    (is (false? (character/allies? (character/create {:character/factions #{}})
+                                   (character/create {:character/factions #{}}))))
+    (is (false? (character/allies? (character/create {:character/factions #{:humans}})
+                                   (character/create {:character/factions #{:hobbits}})))))
+
   (testing "allies cannot attack each other"
     (let [attacker (character/create {:character/factions #{:elves}})
           target (character/create {:character/factions #{:elves}})]

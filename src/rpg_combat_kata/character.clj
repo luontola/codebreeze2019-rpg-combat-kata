@@ -1,5 +1,6 @@
 (ns rpg-combat-kata.character
-  (:require [rpg-combat-kata.coordinate :as coordinate])
+  (:require [clojure.set :as set]
+            [rpg-combat-kata.coordinate :as coordinate])
   (:import (java.util UUID)))
 
 (def max-health 1000)
@@ -37,10 +38,9 @@
       (:character/attack-range attacker)))
 
 (defn allies? [character-1 character-2]
-  ;; FIXME
-  (and (not (empty? (:character/factions character-1)))
-       (= (:character/factions character-1)
-          (:character/factions character-2))))
+  (not (empty? (set/intersection
+                (:character/factions character-1)
+                (:character/factions character-2)))))
 
 (defn attack [target attacker]
   (if (and (in-range? target attacker)
