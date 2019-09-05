@@ -4,9 +4,9 @@
 
 (deftest character-test
   (testing "new character"
-    (testing "has health, starting at 1000"
+    (testing "starts at max health"
       (is (= character/max-health (:character/health character/new))))
-    (testing "has a level, starting at 1"
+    (testing "starts at level 1"
       (is (= 1 (:character/level character/new))))
     (testing "is alive"
       (is (character/alive? character/new))))
@@ -31,21 +31,21 @@
       (let [attacker character/new
             victim (assoc character/new :character/health 1)
             damaged-victim (character/attack attacker victim)]
-        (is (not (character/alive? damaged-victim)))))
+        (is (not (character/alive? damaged-victim))))))
 
-    (testing "healing:"
-      (testing "increases health"
-        (let [damaged (assoc character/new :character/health 500)
-              healed (character/heal damaged 100)]
-          (is (> (:character/health healed)
-                 (:character/health damaged)))))
+  (testing "healing:"
+    (testing "increases health"
+      (let [damaged (assoc character/new :character/health 500)
+            healed (character/heal damaged 100)]
+        (is (> (:character/health healed)
+               (:character/health damaged)))))
 
-      (testing "the dead cannot be healed"
-        (let [damaged (assoc character/new :character/health 0)
-              healed (character/heal damaged 100)]
-          (is (= healed damaged))))
+    (testing "the dead cannot be healed"
+      (let [damaged (assoc character/new :character/health 0)
+            healed (character/heal damaged 100)]
+        (is (= healed damaged))))
 
-      (testing "cannot be healed over max health"
-        (let [damaged (assoc character/new :character/health (dec character/max-health))
-              healed (character/heal damaged 100)]
-          (is (= character/max-health (:character/health healed))))))))
+    (testing "cannot be healed over max health"
+      (let [damaged (assoc character/new :character/health (dec character/max-health))
+            healed (character/heal damaged 100)]
+        (is (= character/max-health (:character/health healed)))))))
