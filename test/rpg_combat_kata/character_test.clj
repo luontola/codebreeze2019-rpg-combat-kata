@@ -133,4 +133,11 @@
   (testing "allies cannot attack each other"
     (let [attacker (character/create {:character/factions #{:elves}})
           target (character/create {:character/factions #{:elves}})]
-      (is (= target (character/attack target attacker))))))
+      (is (= target (character/attack target attacker)))))
+
+  (testing "allies can heal each other"
+    (let [healer (character/create {:character/factions #{:elves}
+                                    :character/healing-power 100})
+          target (character/create {:character/factions #{:elves}
+                                    :character/health 100})]
+      (is (= 200 (:character/health (character/heal target healer)))))))

@@ -58,7 +58,8 @@
 
 (defn heal [target healer]
   (if (and (alive? target)
-           (same? target healer))
+           (or (same? target healer)
+               (allies? target healer)))
     (change-health target (:character/healing-power healer))
     target))
 
