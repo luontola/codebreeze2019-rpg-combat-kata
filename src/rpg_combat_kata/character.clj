@@ -6,5 +6,8 @@
 (defn alive? [character]
   (pos? (:character/health character)))
 
+(defn- deal-damage [health]
+  (max 0 (dec health)))
+
 (defn attack [_attacker victim]
-  (update victim :character/health dec))
+  (update victim :character/health deal-damage))
