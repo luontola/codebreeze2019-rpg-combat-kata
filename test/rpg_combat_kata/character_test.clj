@@ -9,4 +9,7 @@
     (testing "has a level, starting at 1"
       (is (= 1 (:character/level character/new))))
     (testing "is alive"
-      (is (character/alive? character/new)))))
+      (is (character/alive? character/new))))
+
+  (testing "character with zero health is dead"
+    (is (not (character/alive? (assoc character/new :character/health 0))))))
