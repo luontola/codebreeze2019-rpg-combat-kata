@@ -7,7 +7,7 @@
   (pos? (:character/health character)))
 
 (defn- change-health [health change]
-  (max 0 (+ health change)))
+  (max 0 (min 1000 (+ health change))))
 
 (defn attack [_attacker victim]
   (update victim :character/health change-health -1))

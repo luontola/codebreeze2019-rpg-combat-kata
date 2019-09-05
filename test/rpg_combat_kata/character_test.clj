@@ -43,4 +43,9 @@
       (testing "the dead cannot be healed"
         (let [damaged (assoc character/new :character/health 0)
               healed (character/heal damaged 100)]
-          (is (= healed damaged)))))))
+          (is (= healed damaged))))
+
+      (testing "cannot be healed over 1000"
+        (let [damaged (assoc character/new :character/health 999)
+              healed (character/heal damaged 100)]
+          (is (= 1000 (:character/health healed))))))))
