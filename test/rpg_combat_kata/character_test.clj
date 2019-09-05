@@ -9,7 +9,17 @@
     (testing "starts at level 1"
       (is (= 1 (:character/level character))))
     (testing "is alive"
-      (is (character/alive? character)))))
+      (is (character/alive? character))))
+
+  (testing "melee fighter"
+    (is (= {:character/attack-range 2}
+           (-> (character/create {:character/fighter-type :melee})
+               (select-keys [:character/attack-range])))))
+
+  (testing "ranged fighter"
+    (is (= {:character/attack-range 20}
+           (-> (character/create {:character/fighter-type :ranged})
+               (select-keys [:character/attack-range]))))))
 
 (deftest attacking-test
   (testing "deals damage to the target"

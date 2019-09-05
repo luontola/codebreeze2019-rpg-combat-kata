@@ -11,7 +11,10 @@
            :character/health max-health
            :character/level 1
            :character/dps 10
-           :character/healing-power 10}
+           :character/healing-power 10
+           :character/attack-range (case (get initial-values :character/fighter-type :melee)
+                                     :melee 2
+                                     :ranged 20)}
           initial-values)))
 
 (defn alive? [character]
