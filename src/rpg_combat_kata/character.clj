@@ -33,9 +33,10 @@
                                         (max 0 (min max-health (+ health change))))))
 
 (defn- in-range? [target attacker]
-  (<= (coordinate/distance (:character/position target)
-                           (:character/position attacker))
-      (:character/attack-range attacker)))
+  (and (some? (:character/attack-range attacker))
+       (<= (coordinate/distance (:character/position target)
+                                (:character/position attacker))
+           (:character/attack-range attacker))))
 
 (defn allies? [character-1 character-2]
   (not (empty? (set/intersection
@@ -45,9 +46,12 @@
 (defn attack [target attacker]
   (if (and (in-range? target attacker)
            (not (same? target attacker))
-           (not (allies? target attacker)))
-    (let [level-diff (- (:character/level attacker)
-                        (:character/level target))
+           (not (allies? target attacker))
+           (some? (:character/dps attacker)))
+    (let [level-diff (if (some? (:character/level target))
+                       (- (:character/level attacker)
+                          (:character/level target))
+                       0)
           multiplier (cond
                        (<= 5 level-diff) 1.5
                        (<= level-diff -5) 0.5

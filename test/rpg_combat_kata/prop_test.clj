@@ -33,9 +33,20 @@
           target (prop/create)]
       (is (= target (character/heal target healer)))))
 
-  (testing "props cannot attack themselves")
-  (testing "props cannot attack others")
-  (testing "props can be attacked")
+  (testing "props cannot attack themselves"
+    (let [attacker (prop/create)]
+      (is (= attacker (character/attack attacker attacker)))))
+
+  (testing "props cannot attack others"
+    (let [attacker (prop/create)
+          target (character/create)]
+      (is (= target (character/attack target attacker)))))
+
+  (testing "props can be attacked"
+    (let [attacker (character/create)
+          target (prop/create)]
+      (is (> (:character/health target)
+             (:character/health (character/attack target attacker))))))
 
   (testing "props cannot join factions")
   (testing "props cannot leave factions"))
