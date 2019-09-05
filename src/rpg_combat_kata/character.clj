@@ -3,10 +3,14 @@
 
 (def max-health 1000)
 
-(defn new []
-  {:character/id (UUID/randomUUID)
-   :character/health max-health
-   :character/level 1})
+(defn create
+  ([]
+   (create nil))
+  ([initial-values]
+   (merge {:character/id (UUID/randomUUID)
+           :character/health max-health
+           :character/level 1}
+          initial-values)))
 
 (defn alive? [character]
   (pos? (:character/health character)))
