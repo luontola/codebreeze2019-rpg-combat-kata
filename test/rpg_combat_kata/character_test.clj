@@ -24,37 +24,43 @@
 
   (testing "health becomes 0 if damage is greater than health"
     (let [attacker (character/new)
-          victim (assoc (character/new) :character/health 1)
-          damaged-victim (-> victim
+          target (-> (character/new)
+                     (assoc :character/health 1))
+          damaged-target (-> target
                              (character/attack attacker)
                              (character/attack attacker))]
-      (is (= 0 (:character/health damaged-victim)))))
+      (is (= 0 (:character/health damaged-target)))))
 
   (testing "dies when health is 0"
     (let [attacker (character/new)
-          victim (assoc (character/new) :character/health 1)
+          victim (-> (character/new)
+                     (assoc :character/health 1))
           damaged-victim (character/attack victim attacker)]
       (is (not (character/alive? damaged-victim))))))
 
 (deftest healing-test
   (testing "increases health"
-    (let [damaged (assoc (character/new) :character/health 500)
+    (let [damaged (-> (character/new)
+                      (assoc :character/health 500))
           healed (character/heal damaged damaged)]
       (is (> (:character/health healed)
              (:character/health damaged)))))
 
   (testing "enemies cannot be healed"
     (let [healer (character/new)
-          enemy (assoc (character/new) :character/health 500)]
+          enemy (-> (character/new)
+                    (assoc :character/health 500))]
       (is (= enemy (character/heal enemy healer)))))
 
   (testing "the dead cannot be healed"
-    (let [damaged (assoc (character/new) :character/health 0)
+    (let [damaged (-> (character/new)
+                      (assoc :character/health 0))
           healed (character/heal damaged damaged)]
       (is (= healed damaged))))
 
   (testing "cannot be healed over max health"
-    (let [damaged (assoc (character/new) :character/health (dec character/max-health))
+    (let [damaged (-> (character/new)
+                      (assoc :character/health (dec character/max-health)))
           healed (-> damaged
                      (character/heal damaged)
                      (character/heal damaged))]
