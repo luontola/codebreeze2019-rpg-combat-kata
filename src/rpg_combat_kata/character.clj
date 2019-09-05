@@ -5,3 +5,6 @@
 
 (defn alive? [character]
   (pos? (:character/health character)))
+
+(defn attack [_attacker victim]
+  (update victim :character/health dec))
