@@ -27,10 +27,13 @@
 
 (defn attack [target attacker]
   (if (not (same? target attacker))
-    (let [dps (if (<= 5 (- (:character/level attacker)
-                           (:character/level target)))
+    (let [level-diff (- (:character/level attacker)
+                        (:character/level target))
+          dps (if (<= 5 level-diff)
                 (int (* 1.5 (:character/dps attacker)))
-                (:character/dps attacker))]
+                (if (>= -5 level-diff)
+                  (int (* 0.5 (:character/dps attacker)))
+                  (:character/dps attacker)))]
       (change-health target (- dps)))
     target))
 

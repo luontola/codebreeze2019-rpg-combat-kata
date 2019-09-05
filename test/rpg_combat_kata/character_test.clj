@@ -52,8 +52,12 @@
                                       :character/health 100})]
         (is (= 85 (:character/health (character/attack target attacker))))))
 
-    #_(testing "attacker is 5 levels below target, damage is reduced 50%")))
-
+    (testing "attacker is 5 levels below target, damage is reduced 50%"
+      (let [attacker (character/create {:character/level 5
+                                        :character/dps 10})
+            target (character/create {:character/level 10
+                                      :character/health 100})]
+        (is (= 95 (:character/health (character/attack target attacker))))))))
 
 (deftest healing-test
   (testing "increases health"
