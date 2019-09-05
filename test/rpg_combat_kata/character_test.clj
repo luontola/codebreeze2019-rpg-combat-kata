@@ -3,13 +3,15 @@
             [rpg-combat-kata.character :as character]))
 
 (deftest new-character-test
-  (let [character (character/create)]
+  (let [new-character (character/create)]
     (testing "starts at max health"
-      (is (= character/max-health (:character/health character))))
+      (is (= character/max-health (:character/health new-character))))
     (testing "starts at level 1"
-      (is (= 1 (:character/level character))))
+      (is (= 1 (:character/level new-character))))
     (testing "is alive"
-      (is (character/alive? character))))
+      (is (character/alive? new-character)))
+    (testing "has no factions"
+      (is (= #{} (:character/factions new-character)))))
 
   (testing "melee fighter"
     (is (= {:character/attack-range 2}
@@ -111,3 +113,19 @@
                      (character/heal damaged)
                      (character/heal damaged))]
       (is (= character/max-health (:character/health healed))))))
+
+(deftest factions-test
+  (testing "character may join a faction"
+    (let [character (-> (character/create)
+                        (character/join-faction :elves))]
+      (is (= #{:elves} (:character/factions character)))))
+
+  (testing "character may join many factions"
+    (let [character (-> (character/create {:character/factions #{:elves}})
+                        (character/join-faction :orks))]
+      (is (= #{:elves :orks} (:character/factions character)))))
+
+  (testing "character may leave a faction"
+    (let [character (-> (character/create {:character/factions #{:elves :orks}})
+                        (character/leave-faction :elves))]
+      (is (= #{:orks} (:character/factions character))))))

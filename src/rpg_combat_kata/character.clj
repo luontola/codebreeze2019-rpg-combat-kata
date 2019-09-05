@@ -16,7 +16,8 @@
            :character/attack-range (case (get initial-values :character/fighter-type :melee)
                                      :melee 2
                                      :ranged 20)
-           :character/position {:x 0}}
+           :character/position {:x 0}
+           :character/factions #{}}
           initial-values)))
 
 (defn alive? [character]
@@ -53,3 +54,9 @@
            (same? target healer))
     (change-health target (:character/healing-power healer))
     target))
+
+(defn join-faction [character faction]
+  (update character :character/factions conj faction))
+
+(defn leave-faction [character faction]
+  (update character :character/factions disj faction))
