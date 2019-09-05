@@ -11,7 +11,7 @@
 (defn- change-health [health change]
   (max 0 (min max-health (+ health change))))
 
-(defn attack [_attacker victim]
+(defn attack [victim _attacker]
   (update victim :character/health change-health -1))
 
 (defn heal [character health-points]
