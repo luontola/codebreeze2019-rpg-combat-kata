@@ -20,7 +20,7 @@
     target
     (update target :character/health change-health -1)))
 
-(defn heal [character health-points]
-  (if (alive? character)
-    (update character :character/health change-health health-points)
-    character))
+(defn heal [target]
+  (if (alive? target)
+    (update target :character/health change-health 1)
+    target))

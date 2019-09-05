@@ -39,16 +39,18 @@
 (deftest healing-test
   (testing "increases health"
     (let [damaged (assoc (character/new) :character/health 500)
-          healed (character/heal damaged 100)]
+          healed (character/heal damaged)]
       (is (> (:character/health healed)
              (:character/health damaged)))))
 
   (testing "the dead cannot be healed"
     (let [damaged (assoc (character/new) :character/health 0)
-          healed (character/heal damaged 100)]
+          healed (character/heal damaged)]
       (is (= healed damaged))))
 
   (testing "cannot be healed over max health"
     (let [damaged (assoc (character/new) :character/health (dec character/max-health))
-          healed (character/heal damaged 100)]
+          healed (-> damaged
+                     (character/heal)
+                     (character/heal))]
       (is (= character/max-health (:character/health healed))))))
