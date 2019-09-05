@@ -38,7 +38,7 @@
       (is (not (character/alive? damaged-target)))))
 
   (testing "adjust damage to level:"
-    (testing "attacker and target are about same level"
+    (testing "attacker and target are within 4 levels"
       (let [attacker (character/create {:character/level 14
                                         :character/dps 10})
             target (character/create {:character/level 10
