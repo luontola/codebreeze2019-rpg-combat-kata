@@ -43,6 +43,11 @@
                                         :character/dps 10})
             target (character/create {:character/level 10
                                       :character/health 100})]
+        (is (= 90 (:character/health (character/attack target attacker)))))
+      (let [attacker (character/create {:character/level 6
+                                        :character/dps 10})
+            target (character/create {:character/level 10
+                                      :character/health 100})]
         (is (= 90 (:character/health (character/attack target attacker))))))
 
     (testing "attacker is 5 levels above target, damage is boosted 50%"
